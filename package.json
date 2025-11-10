@@ -1,0 +1,35 @@
+{
+  "name": "savage-bots-functions",
+  "version": "1.0.0",
+  "description": "Savage Boy Bot - Private WhatsApp Bot with 250+ Commands",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "youtube-dl-exec": "^2.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "fluent-ffmpeg": "^2.1.2",
+    "axios": "^1.0.0",
+    "form-data": "^4.0.0"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "savage",
+    "automation",
+    "messaging"
+  ],
+  "author": "Savage Boy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "savage-bots-functions"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
