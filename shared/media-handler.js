@@ -1,4 +1,5 @@
-import { exec } from 'youtube-dl-exec';
+import pkg from 'youtube-dl-exec';
+const { exec } = pkg;
 import ffmpeg from 'fluent-ffmpeg';
 import axios from 'axios';
 import { createReadStream, createWriteStream } from 'fs';
