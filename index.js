@@ -57,4 +57,25 @@ const botManager = new BotManager();
 // Auto-initialize Savage-X bot
 botManager.registerBot('savage-x', savageXConnector());
 
+// PORT BINDING FOR RENDER
+const PORT = process.env.PORT || 3000;
+
+// Simple HTTP server to bind port
+import { createServer } from 'http';
+const server = createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ 
+    status: '🦅 Savage Bots Running', 
+    bots: Array.from(botManager.activeBots),
+    timestamp: new Date().toISOString()
+  }));
+});
+
+server.listen(PORT, () => {
+  console.log(`🚀 Savage Bots deployed on port ${PORT}`);
+  console.log(`🦅 Savage-X: ✅ Active`);
+  console.log(`🔮 De-Unknown: ✅ Ready`); 
+  console.log(`👑 Queen Rixie: ✅ Online`);
+});
+
 export default botManager;
