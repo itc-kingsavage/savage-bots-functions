@@ -120,3 +120,52 @@ export function getMentionedUsers(message) {
     if (!message.mentionedJidList) return [];
     return message.mentionedJidList.filter(jid => jid !== message.author);
 }
+
+// ✅ ADDED: Module system helpers
+export function validateModuleCommand(command, moduleCommands) {
+    return moduleCommands.includes(command);
+}
+
+export function getModulePath(moduleName) {
+    return `../bots/savage-x/modules/${moduleName}.js`;
+}
+
+export function formatModuleResponse(response, moduleName) {
+    return `🛠️ ${capitalizeFirst(moduleName)}: ${response}`;
+}
+
+export function isVIPCommand(command) {
+    const vipCommands = [
+        'vipsports', 'vipcharts', 'vipmusic', 'vipassistant', 'vipprivacy',
+        'vipmedia', 'vipstock', 'vipnews', 'vipgame', 'vipscan', 'vipedit',
+        'vipconvert', 'vipanalyze', 'vipbackup', 'vipsession', 'vipstatus',
+        'vipunlock', 'viprequest', 'viphelp'
+    ];
+    return vipCommands.includes(command);
+}
+
+export function validateCommandCategory(command, category) {
+    const categories = {
+        general: ['weather', 'currency', 'calc', 'time', 'reminder', 'notes', 'qr'],
+        ai: ['chatgpt', 'imageai', 'summarize', 'translate', 'code', 'ocr'],
+        fun: ['truth', 'dare', 'trivia', 'wordgame', 'card', 'joke', 'meme'],
+        bot: ['autoreply', 'stats', 'backup', 'schedule', 'trigger'],
+        group: ['antilink', 'welcome', 'rules', 'promote', 'demote', 'banword'],
+        download: ['yt', 'ig', 'tiktok', 'fb', 'spotify', 'convert'],
+        vip: ['vipsports', 'vipcharts', 'vipmusic', 'vipassistant', 'vipprivacy', 'vipmedia', 'vipstock', 'vipnews', 'vipgame', 'vipscan', 'vipedit', 'vipconvert', 'vipanalyze', 'vipbackup', 'vipsession', 'vipstatus', 'vipunlock', 'viprequest', 'viphelp'],
+        god: ['bible', 'prayer', 'sermon', 'devotional', 'church'],
+        extra: ['tts', 'imageedit', 'music', 'encrypt', 'virusscan'],
+        reaction: ['laugh', 'cry', 'angry', 'love', 'fire', 'poop', 'clown', 'ghost', 'alien', 'robot', 'thumbsup', 'hearteyes', 'thinking', 'party', 'cool', 'sick', 'rich', 'shush', 'wave', 'flex']
+    };
+    
+    return categories[category]?.includes(command) || false;
+}
+
+export function logModuleExecution(moduleName, command, userId) {
+    console.log(`🛠️ [MODULE] ${moduleName}.${command} executed by ${userId}`);
+}
+
+export function handleModuleError(moduleName, error) {
+    console.error(`❌ [MODULE] ${moduleName} error:`, error);
+    return `❌ ${capitalizeFirst(moduleName)} module temporarily unavailable`;
+}
