@@ -1,4 +1,4 @@
-import { processCommand } from '../bots/savage-x/commands.js';
+import { processCommand } from '../bots/savage-x/command-router.js';
 import { processVIPCommand } from '../bots/savage-x/vip-commands.js';
 import { isVIP } from './utils.js';
 
@@ -69,10 +69,10 @@ export function getCommandCategory(command) {
         bot: ['autoreply', 'stats', 'backup', 'schedule', 'trigger'],
         group: ['antilink', 'welcome', 'rules', 'promote', 'demote', 'banword'],
         download: ['yt', 'ig', 'tiktok', 'fb', 'spotify', 'convert'],
-        vip: ['vipsports', 'vipcharts', 'vipmusic', 'vipassistant'],
+        vip: ['vipsports', 'vipcharts', 'vipmusic', 'vipassistant', 'vipprivacy', 'vipmedia', 'vipstock', 'vipnews', 'vipgame', 'vipscan', 'vipedit', 'vipconvert', 'vipanalyze', 'vipbackup', 'vipsession', 'vipstatus', 'vipunlock', 'viprequest', 'viphelp'],
         god: ['bible', 'prayer', 'sermon', 'devotional', 'church'],
         extra: ['tts', 'imageedit', 'music', 'encrypt', 'virusscan'],
-        reaction: Object.keys(emojiReactions)
+        reaction: ['laugh', 'cry', 'angry', 'love', 'fire', 'poop', 'clown', 'ghost', 'alien', 'robot', 'thumbsup', 'hearteyes', 'thinking', 'party', 'cool', 'sick', 'rich', 'shush', 'wave', 'flex']
     };
     
     for (const [category, commands] of Object.entries(categories)) {
