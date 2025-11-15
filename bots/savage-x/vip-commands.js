@@ -1,74 +1,87 @@
 import { isVIP, formatTime, getRandomItem, validateArgs } from '../../shared/utils.js';
-import { MediaHandler } from '../../shared/media-handler.js';
+
+// Import VIP modules
+import { processSports } from './modules/vip/sports.js';
+import { processCharts } from './modules/vip/charts.js';
+import { processMusic } from './modules/vip/music.js';
+import { processAssistant } from './modules/vip/assistant.js';
+import { processPrivacy } from './modules/vip/privacy.js';
+import { processMedia } from './modules/vip/media.js';
+import { processStocks } from './modules/vip/stocks.js';
+import { processNews } from './modules/vip/news.js';
+import { processGames } from './modules/vip/games.js';
+import { processTools } from './modules/vip/tools.js';
 
 export async function processVIPCommand(command, args, message, botType) {
     if (!isVIP(message.from)) {
         return '❌ VIP access required. Use $vip to upgrade';
     }
 
-    switch (command) {
-        case 'vip':
-            return showVIPMenu();
+    try {
+        console.log(`⭐ [VIP] Routing command: $${command}`);
         
-        case 'vipsports':
-            return await getLiveSports();
-        
-        case 'vipcharts':
-            return await getMusicCharts();
-        
-        case 'vipmusic':
-            return await downloadVIPMusic(args);
-        
-        case 'vipassistant':
-            return await vipAIAssistant(args);
-        
-        case 'vipprivacy':
-            return privacyTools(args);
-        
-        case 'vipmedia':
-            return await vipMediaDownload(args);
-        
-        case 'vipstock':
-            return await getStockInfo(args);
-        
-        case 'vipnews':
-            return await getVIPNews();
-        
-        case 'vipgame':
-            return await vipGames(args);
-        
-        case 'vipscan':
-            return await deepScan(args);
-        
-        case 'vipedit':
-            return await advancedEdit(args);
-        
-        case 'vipconvert':
-            return await vipConvert(args);
-        
-        case 'vipanalyze':
-            return await analyzeMedia(args);
-        
-        case 'vipbackup':
-            return await vipBackup();
-        
-        case 'vipsession':
-            return manageSession(args, message.from);
-        
-        case 'vipstatus':
-            return getVIPStatus(message.from);
-        
-        case 'vipunlock':
-            return unlockFeature(args);
-        
-        case 'viprequest':
-            return submitVIPRequest(args);
-        
-        case 'viphelp':
-            return getVIPHelp(args);
-        
-        default:
-            return `❌ Unknown VIP command: $${command}\nType $vip for VIP menu`;
+        // Route to appropriate VIP module
+        switch (command) {
+            case 'vip':
+                return showVIPMenu();
+            
+            case 'vipsports':
+                return await processSports(args, message);
+            
+            case 'vipcharts':
+                return await processCharts(args, message);
+            
+            case 'vipmusic':
+                return await processMusic(args, message);
+            
+            case 'vipassistant':
+                return await processAssistant(args, message);
+            
+            case 'vipprivacy':
+                return await processPrivacy(args, message);
+            
+            case 'vipmedia':
+                return await processMedia(args, message);
+            
+            case 'vipstock':
+                return await processStocks(args, message);
+            
+            case 'vipnews':
+                return await processNews(args, message);
+            
+            case 'vipgame':
+                return await processGames(args, message);
+            
+            case 'vipscan':
+            case 'vipedit':
+            case 'vipconvert':
+            case 'vipanalyze':
+                return await processTools(command, args, message);
+            
+            case 'vipbackup':
+                return await vipBackup();
+            
+            case 'vipsession':
+                return manageSession(args, message.from);
+            
+            case 'vipstatus':
+                return getVIPStatus(message.from);
+            
+            case 'vipunlock':
+                return unlockFeature(args);
+            
+            case 'viprequest':
+                return submitVIPRequest(args);
+            
+            case 'viphelp':
+                return getVIPHelp(args);
+            
+            default:
+                return `❌ Unknown VIP command: $${command}\nType $vip for VIP menu`;
+        }
+    } catch (error) {
+        console.error(`❌ [VIP] Command processing failed:`, error);
+        return getVIPFallbackResponse(command, args);
     }
 }
 
@@ -98,99 +111,7 @@ function showVIPMenu() {
 ✨ Premium Features | Priority Access ✨`;
 }
 
-async function getLiveSports() {
-    const sports = [
-        "⚽ EPL: Man City 2-1 Liverpool (Live 75')",
-        "🏀 NBA: Lakers vs Celtics - Q3 89-85",
-        "🎾 ATP Finals: Djokovic vs Alcaraz - Set 2",
-        "🏏 IPL: MI vs CSK - MI 150/4 (15ov)"
-    ];
-    return `📺 LIVE SPORTS UPDATE:\n\n${sports.join('\n')}\n\n🔴 Live Updates Every 5min`;
-}
-
-async function getMusicCharts() {
-    return `🎵 BILLBOARD HOT 100 (VIP ACCESS)
-
-1. Artist1 - Song1 ↗️
-2. Artist2 - Song2 ↘️  
-3. Artist3 - Song3 ➡️
-4. Artist4 - Song4 ↗️
-5. Artist5 - Song5 ⬇️
-
-📈 Real-time chart movements
-💿 Download any track with $vipmusic`;
-}
-
-async function downloadVIPMusic(song) {
-    if (!validateArgs(song)) return '❌ Usage: $vipmusic song name';
-    return `🎵 VIP MUSIC: Downloading "${song}"\n🎧 Highest Quality | No Ads\n⏳ Processing...`;
-}
-
-async function vipAIAssistant(query) {
-    if (!validateArgs(query)) return '❌ Usage: $vipassistant your question';
-    return `🤖 VIP AI ASSISTANT:\n\nQuery: "${query}"\n\nResponse: Processing with enhanced AI model...\n✨ Context-aware | Multi-step reasoning`;
-}
-
-function privacyTools(args) {
-    const tools = {
-        encrypt: "🔒 Message encryption activated",
-        ghost: "👻 Ghost mode: Online status hidden", 
-        clean: "🧹 Digital footprint cleaned",
-        shield: "🛡️ Privacy shield enabled"
-    };
-    return tools[args] || `🛡️ VIP PRIVACY TOOLS:\n• $vipprivacy encrypt\n• $vipprivacy ghost\n• $vipprivacy clean\n• $vipprivacy shield`;
-}
-
-async function vipMediaDownload(url) {
-    if (!validateArgs(url)) return '❌ Usage: $vipmedia https://...';
-    return `📥 VIP MEDIA DOWNLOAD:\n\nURL: ${url}\n✨ Priority Queue | Highest Quality\n🚀 2x Faster Download\n⏳ Starting...`;
-}
-
-async function getStockInfo(symbol) {
-    if (!validateArgs(symbol)) return '❌ Usage: $vipstock AAPL';
-    const stocks = {
-        AAPL: "Apple: $175.32 ↗️ +2.1%",
-        TSLA: "Tesla: $245.67 ↘️ -1.2%", 
-        GOOGL: "Google: $138.45 ↗️ +0.8%"
-    };
-    return `📈 STOCK INFO (${symbol}):\n${stocks[symbol] || "Symbol not found"}\n\n💹 Real-time data | 15min delay`;
-}
-
-async function getVIPNews() {
-    const news = [
-        "🌍 Breaking: Major tech announcement",
-        "💰 Markets: Stocks reach record high", 
-        "🔬 Science: New breakthrough discovery",
-        "🎬 Entertainment: Award winners announced"
-    ];
-    return `📰 VIP NEWS BRIEFING:\n\n${news.join('\n')}\n\n🕒 Updated: ${formatTime()}`;
-}
-
-async function vipGames(game) {
-    const games = {
-        chess: "♟️ VIP Chess: Starting game...",
-        trivia: "🎯 VIP Trivia: Enhanced questions loaded",
-        puzzle: "🧩 VIP Puzzle: Difficulty level expert"
-    };
-    return games[game] || `🎮 VIP GAMES:\n• $vipgame chess\n• $vipgame trivia\n• $vipgame puzzle\n\n✨ Enhanced gameplay | Premium features`;
-}
-
-async function deepScan(target) {
-    return `🔍 DEEP SCAN RESULTS:\n\nTarget: ${target || "System"}\n\n✅ No threats detected\n🛡️ Security: Excellent\n📊 Performance: Optimal\n\n✨ Comprehensive analysis complete`;
-}
-
-async function advancedEdit(args) {
-    return `🎨 ADVANCED EDITING:\n\nTool: ${args || "Photo Enhancer"}\n✨ AI-powered editing\n🎭 Professional filters\n📐 Precision tools\n⏳ Processing your media...`;
-}
-
-async function vipConvert(args) {
-    return `🔄 VIP CONVERSION:\n\nFormat: ${args || "Ultra HD"}\n✨ Lossless quality\n🚀 3x faster conversion\n📊 Batch processing available\n⏳ Starting conversion...`;
-}
-
-async function analyzeMedia(args) {
-    return `📊 MEDIA ANALYSIS:\n\nFile: ${args || "Uploaded media"}\n\n📈 Resolution: 4K Ultra HD\n🎵 Audio: 320kbps\n⏱️ Duration: 3:45\n📏 Size: 45.2MB\n✨ Quality: Excellent`;
-}
-
+// Fallback functions for core VIP features
 async function vipBackup() {
     return `💾 VIP BACKUP SYSTEM:\n\n✅ All chats backed up\n✅ Media files secured\n✅ Settings preserved\n✅ Encryption enabled\n\n📦 Backup complete: ${formatTime()}`;
 }
@@ -221,7 +142,36 @@ function getVIPHelp(topic) {
     const helps = {
         sports: "🎯 $vipsports - Live scores, real-time updates",
         music: "🎵 $vipmusic <song> - Download any track",
-        ai: "🤖 $vipassistant <query> - Enhanced AI helper"
+        ai: "🤖 $vipassistant <query> - Enhanced AI helper",
+        privacy: "🛡️ $vipprivacy - Encryption and privacy tools",
+        media: "📥 $vipmedia <url> - Priority media downloads",
+        stocks: "📈 $vipstock <symbol> - Real-time stock data",
+        news: "📰 $vipnews - Exclusive news briefing",
+        games: "🎮 $vipgame - Premium games",
+        tools: "🔧 $vipscan/$vipedit/$vipconvert - Advanced tools"
     };
-    return helps[topic] || `❓ VIP HELP: Use $viphelp <topic>\nTopics: sports, music, ai, privacy, media, stocks`;
+    return helps[topic] || `❓ VIP HELP: Use $viphelp <topic>\nTopics: sports, music, ai, privacy, media, stocks, news, games, tools`;
+}
+
+// Fallback response for module errors
+function getVIPFallbackResponse(command, args) {
+    const fallbacks = {
+        'vipsports': `🎯 VIP SPORTS (Fallback):\nLive sports updates temporarily unavailable\nTry again in a few minutes.`,
+        'vipcharts': `📊 VIP CHARTS (Fallback):\nMusic charts temporarily unavailable\nTry again in a few minutes.`,
+        'vipmusic': `🎵 VIP MUSIC (Fallback):\nMusic download service temporarily unavailable\nTry again in a few minutes.`,
+        'vipassistant': `🤖 VIP ASSISTANT (Fallback):\nAI assistant temporarily unavailable\nTry again in a few minutes.`
+    };
+    
+    return fallbacks[command] || `❌ VIP service temporarily unavailable for: $${command}`;
+}
+
+// Dynamic module import fallback
+export async function dynamicVIPImport(moduleName) {
+    try {
+        const module = await import(`./modules/vip/${moduleName}.js`);
+        return module;
+    } catch (error) {
+        console.error(`❌ [VIP] Module import failed:`, error);
+        return null;
+    }
 }
