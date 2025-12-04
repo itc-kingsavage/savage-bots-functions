@@ -1,11 +1,15 @@
 {
-  "name": "savage-bots-functions",
-  "version": "1.0.0",
-  "description": "Savage Boy Bot - Private WhatsApp Bot with 250+ Commands",
+  "name": "savage-bots-fx",
+  "version": "2.0.0",
+  "description": "Savage Bots FX - 3 Independent WhatsApp Bots (Savage-X, De-Unknown, Queen-Rixie)",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "start:savage": "node bots/savage-x/savage-x.js",
+    "start:unknown": "node bots/de-unknown/de-unknown.js",
+    "start:rixie": "node bots/queen-rixie/queen-rixie.js",
+    "start:all": "concurrently \"npm run start:savage\" \"npm run start:unknown\" \"npm run start:rixie\"",
     "dev": "node --watch index.js",
     "test": "node test.js",
     "deploy": "npm start"
@@ -15,20 +19,26 @@
     "cheerio": "^1.0.0-rc.12",
     "fluent-ffmpeg": "^2.1.2",
     "axios": "^1.0.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.5.0",
+    "concurrently": "^8.0.0",
+    "@whiskeysockets/baileys": "^6.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0"
   },
   "keywords": [
-    "whatsapp",
-    "bot",
-    "savage",
-    "automation",
-    "messaging"
+    "whatsapp-bot",
+    "savage-x",
+    "de-unknown",
+    "queen-rixie",
+    "multi-bot"
   ],
   "author": "Savage Boy",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "savage-bots-functions"
+    "url": "https://github.com/yourusername/savage-bots-fx"
   },
   "engines": {
     "node": ">=18.0.0"
