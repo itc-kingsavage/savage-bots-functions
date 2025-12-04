@@ -1,0 +1,62 @@
+{
+    "name": "Savage-X",
+    "emoji": "🦅",
+    "prefix": "$",
+    "botType": "savage-x",
+    
+    "features": {
+        "hasAdmin": true,
+        "hasVIP": true,
+        "hasModeration": true,
+        "hasAnalytics": true,
+        "canBroadcast": true,
+        "canRestart": true
+    },
+    
+    "permissions": {
+        "maxGroupSize": 1000,
+        "maxBroadcast": 100,
+        "dailyCommandLimit": 1000,
+        "vipDailyLimit": 5000,
+        "adminUnlimited": true
+    },
+    
+    "modules": {
+        "admin": true,
+        "vip": true,
+        "moderation": true,
+        "analytics": true,
+        "download": true,
+        "ai": true,
+        "fun": true,
+        "media": true,
+        "reaction": true,
+        "god": true
+    },
+    
+    "security": {
+        "requireAuth": true,
+        "logCommands": true,
+        "encryptLogs": false,
+        "backupInterval": 3600
+    },
+    
+    "paths": {
+        "commands": "./commands",
+        "modules": "./modules",
+        "admin": "./admin",
+        "vip": "./vip",
+        "logs": "./logs",
+        "temp": "./temp"
+    },
+    
+    "owner": {
+        "name": "Savage Boy",
+        "contact": "deadxmile@gmail.com",
+        "backupEmail": "itc.kingsavage@gmail.com"
+    },
+    
+    "version": "2.0.0",
+    "environment": "production",
+    "lastUpdated": "2024-12-18"
+}
